@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Виселица!</title>
+</head>
+<body>
+<h1>Виселица!</h1>
+<p>Чтобы начать играть <br> нажмите F5 на клавиатуре  <br> или перезагрузите страницу.</p>
+<script>
+var emptyWord, guessWord, correctAnswers, incorrectAnswers, word4, randomWord, numberOfMistakes, players;
+numberOfAttempts = 7;
+players = 0;
+emptyWord = [];
+var word5, word6, word7, word8, word9, word10;
+word4 = ["МАМА", "ПАПА", "ЛЕТО", "ЗИМА", "ОСЕЛ", "КРАН"];
+word5 = ["АФЕРА", "БЫЧОК", "ЛЕТО", "ВЫБОР", "ГЛИНА", "ДЮШЕС"];
+word6 = ["АВАРИЯ", "АКАЦИЯ", "БЕТМЕН", "ВАЖНЫЙ", "ВАНИЛЬ", "ВАННАЯ"];
+word7 = ["АБОРДАЖ", "АБРИКОС", "АВИАТОР", "НАВЕСКА", "НАДЕЖДА", "РАСЦВЕТ"];
+word8 = ["АЭРОБИКА", "БАРБАРИС", "ГАРАНТИЯ", "ВЕРТУШКА", "ЕДИНОРОГ", "КРАСАВЕЦ"];
+word9 = ["АБОНЕМЕНТ", "АВТОПИЛОТ", "БАЛАЛАЙКА", "АВИАНОСЕЦ", "БАДМИНТОН", "БАЛАБОЛКА"];
+word10 = ["АБИТУРИЕНТ", "АБСТРАКЦИЯ", "АВАНТЮРИСТ", "БАЛЛИСТИКА", "БАКЕНБАРДЫ", "БАЛОВАННЫЙ"];
+alert ("Добро пожаловать в игру ВИСЕЛИЦА =)  Отгадайте зашифрованное слово и помогите бедному человечку остаться живым =(");
+
+while (true) {
+	players = prompt("Выберите количество играков: 1 или 2.");
+	if (players == 1) {
+		while (true){
+			var level = prompt("Нужно вводить по одной русской букве, для продолжения выбирете уровень сложности выбрав цифру от 4 до 10 и нажмите ОК.");
+			//emptyWord = ["_", "_", "_", "_"];
+			randomWord = function (word) {
+				for (var i = 0; i < level; i++) {
+					emptyWord.push("_");
+				};
+				return word[Math.floor(Math.random() * word.length)].split("");
+			};
+			if (level == 4) {
+				guessWord = randomWord(word4);
+				level = 4;
+				break;
+			} else if (level == 5) {
+				guessWord = randomWord(word5);
+				level = 5;
+				break;
+			} else if (level == 6) {
+				guessWord = randomWord(word6);
+				level = 6;
+				break;
+			} else if (level == 7) {
+				guessWord = randomWord(word7);
+				level = 7;
+				break;
+			} else if (level == 8) {
+				guessWord = randomWord(word8);
+				level = 8;
+				break;
+			} else if (level == 9) {
+				guessWord = randomWord(word9);
+				level = 9;
+				break;
+			} else if (level == 10) {
+				guessWord = randomWord(word10);
+				level = 10;
+				break;
+			} if (level === null) {
+				emptyWord.join() = guessWord;
+			} else {
+				alert("Вы ввели не допустимое число.");
+			}
+		}
+		break;
+	} else if (players == 2) {
+		var guessWordPlayer = prompt("Загадайте Ваше слово. Затем нажмите ОК и передайте устройство другому игроку.");
+		for (var i = 0; i < guessWordPlayer.length; i++) {
+					emptyWord.push("_");
+				};
+		guessWord = guessWordPlayer.toUpperCase().split("");
+		break;
+	} else if (players === null) {
+		emptyWord.join() = guessWord;
+	} else {
+		alert("Не верное значение! Введите количество игроков: 1 или 2.");
+	}
+}
+
+correctAnswers = 0;
+incorrectAnswers = 0;
+var falseReplay = [];
+while (emptyWord.join() != guessWord) {
+    var userLetter = prompt("Введите Вашу букву.").toUpperCase();
+    if (userLetter === null) {
+		break;
+	} else if (userLetter.length !== 1) {
+		alert("Пожалуйста, введите одну букву.");
+	} else {
+		// Обновляем состояние игры
+	    var point = false;
+	    for (var i = 0; i < emptyWord.length; i++) {
+	    	if (emptyWord[i] === userLetter) {
+	    		point = "replay";
+	    	} else if (guessWord[i] === userLetter) {
+	            emptyWord[i] = userLetter;
+	            point = true;
+	        } else if (falseReplay[i] === userLetter) {
+	            point = "falseReplay";
+	        };
+		};
+		if (point === "replay") {
+	    	alert("Вы уже отгадали эту буку!");
+	    } 
+	    else if (point === "falseReplay") {
+	        alert("Вы уже вводили эту букву! К сожалению она не подходит. Попробуйте другую.");
+	    }
+	    else if (point === true) {
+	        correctAnswers++;
+	        alert("Поздравляем! Вы ответели правильно! Количество правильных ответов: " + correctAnswers + 
+	        	". Количество не правильных ответов: " + incorrectAnswers + ". Осталось " + numberOfAttempts + " попыток. Нажмите ОК, чтобы продолжить.");
+	    } 
+	    else if (point === false) {
+	        incorrectAnswers++;
+			numberOfAttempts--;
+			if (numberOfAttempts === 0) {
+				alert("Увы, Вы проиграли! Человечка повесили! Чтобы попробовать снова перезагрузите страницу.");
+				break;
+			};
+			alert("К сожалению, Вы ответели не правильно... Количество не правильных ответов: "
+	         + incorrectAnswers + ". Количество правильных ответов: " + correctAnswers + ". Осталось " + numberOfAttempts + " попыток. Нажмите ОК, чтобы продолжить.");
+			falseReplay.push(userLetter);
+	    };
+	    alert(emptyWord.join(" "));
+	};
+};
+
+if (emptyWord.join() === guessWord.join()) {
+	confirm("Поздравляем! Вы отгадали слово и спасли человечка! Это словово: " + emptyWord.join("") + ". Хотите продолжить?");
+};
+alert("Нажмите F5, чтобы начать игру, либо же обновите страницу.");
+</script>
+</body>
+</html>
